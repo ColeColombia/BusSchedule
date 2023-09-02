@@ -8,7 +8,46 @@ CREATE TABLE bus_company (
 	name VARCHAR(255) NOT NULL,
 	street VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
-	zip_code TEXT NOT NULL
+	zip_code INTEGER NOT NULL
+);
+
+-- Bus Table creation
+CREATE TABLE bus (
+	bus_id INTEGER PRIMARY KEY,
+	bus_company_id INTEGER NOT NULL,
+	capacity INTEGER
+	FOREIGN KEY (bus_company_id)
+       REFERENCES bus_company (bus_company_id) 
+);
+
+-- bus_station creation
+CREATE TABLE bus_station (
+	bus_station_id INTEGER PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+);
+
+-- Trip Table creation
+CREATE TABLE trip (
+	trip_id INTEGER PRIMARY KEY,
+	bus_station_id INTEGER NOT NULL,
+	origin VARCHAR(255),
+	destination VARCHAR(255),
+	departure_time TEXT,
+	est_arrival_time TEXT,
+	FOREIGN KEY (bus_station_id)
+       REFERENCES bus_station (bus_station_id) 
+);
+
+-- Bus trip Table creation
+CREATE TABLE bus_trip (
+	bus_trip_id INTEGER PRIMARY KEY,
+	bus_id INTEGER NOT NULL,
+	trip_id INTEGER NOT NULL,
+	capacity INTEGER
+	FOREIGN KEY (bus_id)
+       REFERENCES bus (bus_id),
+	FOREIGN KEY (trip_id)
+       REFERENCES trip (trip_id)  
 );
 
 -- passenger Table creation
@@ -18,6 +57,22 @@ CREATE TABLE passenger (
 	last_name VARCHAR(255) NOT NULL,
     date_of_birth TEXT,
     gender CHAR(15),
+	email_address VARCHAR(255),
+	cellphone_number INTEGER,
+	street VARCHAR(255)
 	city VARCHAR(255) NOT NULL,
 	zip_code INTEGER NOT NULL
+);
+
+-- booking Table creation
+CREATE TABLE booking (
+	booking_id INTEGER PRIMARY KEY,
+	trip_id INTEGER NOT NULL,
+	passenger_id INTEGER NOT NULL,
+	seat INTEGER NOT NULL,
+	price DECIMAL NOT NULL,
+	FOREIGN KEY (trip_id)
+       REFERENCES trip (trip_id),
+	FOREIGN KEY (passenger_id)
+       REFERENCES passenger (passenger_id)
 );
