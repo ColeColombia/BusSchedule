@@ -4,7 +4,7 @@
 
 -- Bus Company Table creation
 CREATE TABLE Bus_Company (
-	bus_company_id INTEGER PRIMARY KEY,
+	bus_company_id INT(4) PRIMARY KEY,
 	name VARCHAR(255) NOT NULL,
 	street VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
@@ -13,16 +13,16 @@ CREATE TABLE Bus_Company (
 
 -- Bus Table creation
 CREATE TABLE Bus (
-	bus_id INTEGER PRIMARY KEY,
+	bus_id INT(4) PRIMARY KEY,
 	bus_company_id INTEGER NOT NULL,
-	capacity INTEGER,
+	capacity INT(3),
 	FOREIGN KEY (bus_company_id)
        REFERENCES Bus_Company (bus_company_id) 
 );
 
 -- bus station address creation
 CREATE TABLE Bus_Station_Address (
-	bus_station_address_id INTEGER PRIMARY KEY,
+	bus_station_address_id INT(4) PRIMARY KEY,
 	street VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
 	zip_code INT(4) NOT NULL
@@ -30,8 +30,8 @@ CREATE TABLE Bus_Station_Address (
 
 -- bus_station table creation
 CREATE TABLE Bus_Station (
-	bus_station_id INTEGER PRIMARY KEY,
-	bus_station_address_id INTEGER NOT NULL,
+	bus_station_id INT(4) PRIMARY KEY,
+	bus_station_address_id INT(4) NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	FOREIGN KEY (bus_station_address_id)
        REFERENCES Bus_Station_Address (bus_station_address_id) 
@@ -39,9 +39,8 @@ CREATE TABLE Bus_Station (
 
 -- Trip Table creation
 CREATE TABLE Trip (
-	trip_id INTEGER PRIMARY KEY,
-	bus_station_id INTEGER NOT NULL,
-	origin VARCHAR(255),
+	trip_id INT(4) PRIMARY KEY,
+	bus_station_id INT(4) NOT NULL,
 	destination VARCHAR(255),
 	departure_time DATETIME,
 	est_arrival_time DATETIME,
@@ -51,10 +50,9 @@ CREATE TABLE Trip (
 
 -- Bus trip Table creation
 CREATE TABLE Bus_Trip (
-	bus_trip_id INTEGER PRIMARY KEY,
-	bus_id INTEGER NOT NULL,
-	trip_id INTEGER NOT NULL,
-	capacity INTEGER,
+	bus_trip_id INT(4) PRIMARY KEY,
+	bus_id INT(4) NOT NULL,
+	trip_id INT(60) NOT NULL,
 	FOREIGN KEY (bus_id)
        REFERENCES Bus (bus_id),
 	FOREIGN KEY (trip_id)
@@ -63,27 +61,134 @@ CREATE TABLE Bus_Trip (
 
 -- passenger Table creation
 CREATE TABLE Passenger (
-	passenger_id INTEGER PRIMARY KEY,
+	passenger_id INT(4) PRIMARY KEY,
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL,
-    date_of_birth DATE,
-    gender CHAR(6),
-	email_address VARCHAR(255),
-	cellphone_number INTEGER,
-	street VARCHAR(255),
+    date_of_birth DATE NOT NULL,
+    gender CHAR(6) NOT NULL,
+	email_address VARCHAR(255) NOT NULL,
+	cellphone_number INT(10) NOT NULL,
+	street VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
 	zip_code INT(4) NOT NULL
 );
 
 -- booking Table creation
 CREATE TABLE Booking (
-	booking_id INTEGER PRIMARY KEY,
-	trip_id INTEGER NOT NULL,
-	passenger_id INTEGER NOT NULL,
-	seat INTEGER NOT NULL,
-	price DECIMAL(10,5) NOT NULL,
+	booking_id INT(4) PRIMARY KEY,
+	trip_id INT(4) NOT NULL,
+	passenger_id INT(4) NOT NULL,
+	seat INT(4) NOT NULL,
+	price DECIMAL(10,2) NOT NULL,
 	FOREIGN KEY (trip_id)
        REFERENCES Trip (trip_id),
 	FOREIGN KEY (passenger_id)
        REFERENCES Passenger (passenger_id)
 );
+
+-- Insertion statements
+
+-- Bus company insert
+INSERT INTO Bus_Company(bus_company_id, name, street, city, zip_code) VALUES
+    (0102, 'InnerCity', '23 Luis street', 'Burban', 0234),
+	(0103, 'BestBus', '14 Emblem street', 'Pretoria', 0754),
+	(0104, 'Flying Coach', '18 Marvel street', 'Johannesburg', 0934),
+	(0105, 'FiveStar', '92 Backyard street', 'Soweto', 0672),
+	(0106, 'EnxoCoach', '78 Maxwell street', 'East London', 0503),
+	(0107, 'TopNotch', '56 Cambel street', 'Mafikeng', 0256),
+	(0108, 'Cenex', '08 Klosser street', 'Cape Town', 7500),
+	(0109, 'CaterCoach', '98 Rexam street', 'Kimberly', 0456),
+	(0210, 'NextStop', '44 Real street', 'Butterworth', 9845),
+	(0211, 'Denver', '78 Serena street', 'Rustenburg', 0823);
+
+-- Bus insert
+INSERT INTO Bus(bus_id, bus_company_id, capacity) VALUES
+    (0251, 0102, 80),
+	(0252, 0103, 64),
+	(0253, 0104, 74),
+	(0254, 0105, 80),
+	(0255, 0106, 80),
+	(0256, 0107, 120),
+	(0257, 0108, 64),
+	(0258, 0109, 68),
+	(0259, 0210, 74),
+	(0260, 0211, 80);
+
+
+-- Bus Station Address insert
+INSERT INTO Bus_Station_Address(bus_station_address_id, street, city, zip_code) VALUES
+    (3412, '21 Plein street', 'Cape Town', 0452),
+	(3413, '343 Raisin street', 'Bogsburg', 0294),
+	(3414, '2156 Groot street', 'Durban', 9872),
+	(3415, '231 Roberts street', 'East London', 7632),
+	(3416, '245 Makofane street', 'Mafikeng', 2091),
+	(3417, '232 Foden street', 'Kimberly', 0211),
+	(3418, '32 Kion street', 'Welkom', 0475),
+	(3419, '34 Bane street', 'Krugersdop', 0234),
+	(3420, '55 Mabel street', 'Wynberg', 9356),
+	(3421, '25 OBlock street', 'Parow', 0234);
+	
+-- Bus station insert
+INSERT INTO Bus_Station(bus_station_id, bus_station_address_id, name) VALUES
+(1211, 3412, 'ParkStation'),
+(1212, 3413, 'Melyn Park'),
+(1213, 3414, 'Philipin'),
+(1214, 3415, 'OakLand'),
+(1215, 3416, 'Parkland'),
+(1216, 3417, 'Orlando'),
+(1217, 3418, 'Mamelodi'),
+(1218, 3419, 'Kruskal'),
+(1219, 3420, 'ParkCentral'),
+(1220, 3421, 'Machel');
+
+-- Trip insert
+INSERT INTO Trip(trip_id, bus_station_id, destination, departure_time, est_arrival_time) VALUES
+(1821, 1211, 'Bellville', '', ''),
+(1822, 1212, 'Rustenburg', '', ''),
+(1823, 1213, 'Mafikeng', '', ''),
+(1824, 1214, 'Kwamashu', '', ''),
+(1825, 1215, 'Thembisa', '', ''),
+(1826, 1216, 'Parow', '', ''),
+(1827, 1217, 'Bogsburg', '', ''),
+(1828, 1218, 'Tlhabane', '', ''),
+(1829, 1219, 'NordPark', '', ''),
+(1830, 1220, 'Steelpark', '', '');
+
+-- Bus trip insert
+INSERT INTO Bus_Trip(bus_trip_id, bus_id, trip_id) VALUES
+(1621, 251, 1821),
+(1622, 252, 1822),
+(1623, 253, 1823),
+(1624, 254, 1824),
+(1625, 255, 1825),
+(1626, 256, 1826),
+(1627, 257, 1827),
+(1628, 258, 1828),
+(1629, 259, 1829),
+(1630, 260, 1830);
+
+-- Passenger insert
+INSERT INTO Passenger(passenger_id, first_name, last_name, date_of_birth, gender, email_address, cellphone_number, street, city, zip_code) VALUES
+(9231, 'James', 'Brynt', '2000-06-20', 'Male', 'James@mail.com', 0720230923, '92 Edward street', 'Cape Town', 7500),
+(9232, 'Kate', 'Muss', '1999-03-21', 'Female', 'Kate@mail.com', 0847563847, '34 Boulervard street', 'Durban', 3902),
+(9233, 'Harry', 'Kane', '1996-09-19', 'Male', 'Harry@mail.com', 0834498745, '45 King street', 'Kimberly', 8000),
+(9234, 'Percy', 'Standford', '1984-02-07', 'Male', 'Percy@mail.com', 0720230923, '21 Stand street', 'Bloemfontein', 3894),
+(9235, 'Sera', 'Kera', '2005-09-23', 'Female', 'Sera@mail.com', 0720230923, '21 Rid street', 'Rustenburg', 9475),
+(9236, 'Bolg', 'Yan', '1973-02-19', 'Male', 'Yan@mail.com', 0720230923, '90 Foren street', 'Mafikeng', 7484),
+(9237, 'Rod', 'Riguez', '1967-03-29', 'Female', 'Riguez@mail.com', 0720230923, '54 Jorge street', 'Johannesburg', 0384),
+(9238, 'Mampela', 'Taung', '1990-02-25', 'Female', 'Mampela@mail.com', 0720230923, '55 Bolen street', 'Welkom', 8744),
+(9239, 'Kabelo', 'Kgokong', '1987-06-12', 'Male', 'Kgokong@mail.com', 0720230923, '45 Plain street', 'George', 0393),
+(9240, 'Mopo', 'Ditalaneng', '1982-08-12', 'Male', 'Mopo@mail.com', 0720230923, '12 Kepa street', 'Lebanon', 7584);
+
+-- Booking insert
+INSERT INTO Booking(booking_id, trip_id, passenger_id, seat, price) VALUES
+(8920, 1821, 9231, 0001, 499.99),
+(8921, 1822, 9232, 0002, 599.99),
+(8922, 1823, 9233, 0003, 499.99),
+(8923, 1824, 9234, 0004, 799.99),
+(8924, 1825, 9235, 0005, 899.99),
+(8925, 1826, 9236, 0006, 999.99),
+(8926, 1827, 9237, 0007, 1099.99),
+(8927, 1828, 9238, 0008, 399.99),
+(8928, 1829, 9239, 0009, 299.99),
+(8929, 1830, 9240, 0010, 349.99);
