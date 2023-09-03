@@ -87,3 +87,162 @@ CREATE TABLE Booking (
 	FOREIGN KEY (passenger_id)
        REFERENCES Passenger (passenger_id)
 );
+
+
+-- Addition by Anesu
+
+     CREATE TABLE bus_company
+     (bus_company_id INTEGER PRIMARY KEY,
+     name VARCHAR(255),
+     street VARCHAR(255),
+     city VARCHAR(255),
+     zip_code INTEGER
+     );
+	 
+     CREATE TABLE bus
+     (bus_id INTEGER PRIMARY KEY,
+     capacity INTEGER,
+     bus_company_id INTEGER,
+     FOREIGN KEY (bus_company_id)
+     REFERENCES bus_company (bus_company_id)
+     );
+	 
+	 CREATE TABLE bus_trip
+	(bus_trip_id INTEGER PRIMARY KEY,
+     bus_id INTEGER,
+     trip_id INTEGER,
+     FOREIGN KEY (bus_id)
+     REFERENCES bus (bus_id)
+     FOREIGN KEY (trip_id)
+     REFERENCES trip (trip_id)
+     );
+	 
+
+INSERT INTO bus_company (bus_company_id,name,street,city,zip_code)
+VALUES(01,'Dube Transport','8 Flick Street','Cape Town',7490);
+
+INSERT INTO bus_company (bus_company_id,name,street,city,zip_code)
+VALUES(02,'Luxury Transport Company','3 Mayor Road','Durban',4011);
+
+INSERT INTO bus_company (bus_company_id,name,street,city,zip_code)
+VALUES(03,'Swift Transport','15 Baynes Rd','Pretoria',0011);
+
+INSERT INTO bus_company (bus_company_id,name,street,city,zip_code) 
+VALUES(04,'Global Transport Company','4 Hammer Street','Johannesburg',2022);
+
+INSERT INTO bus_company (bus_company_id,name,street,city,zip_code)
+VALUES(05,'Ekhaya Transport','21 Maven Rd','Rustenburg',0308);
+
+INSERT INTO bus (bus_id,capacity,bus_company_id)
+VALUES(001,50,01);
+
+INSERT INTO bus (bus_id,capacity,bus_company_id)
+VALUES(002,60,02);
+
+INSERT INTO bus (bus_id,capacity,bus_company_id)
+VALUES(003,50,03);
+
+INSERT INTO bus (bus_id,capacity,bus_company_id)
+VALUES(004,60,04);
+
+INSERT INTO bus (bus_id,capacity,bus_company_id)
+VALUES(005,50,05);
+
+
+INSERT INTO bus_trip (bus_trip_id,bus_id,trip_id)
+VALUES(01,001,001);
+INSERT INTO bus_trip (bus_trip_id,bus_id,trip_id)
+VALUES(02,002,002);
+INSERT INTO bus_trip (bus_trip_id,bus_id,trip_id)
+VALUES(03,003,003);
+INSERT INTO bus_trip (bus_trip_id,bus_id,trip_id)
+VALUES(04,004,004);
+INSERT INTO bus_trip (bus_trip_id,bus_id,trip_id)
+VALUES(05,005,005);
+     
+UPDATE bus_company
+SET name = 'Maybach Transport Company'
+WHERE 
+  bus_company_id = 03;
+
+UPDATE bus_company
+SET name = 'City to City'
+WHERE 
+  bus_company_id = 04;
+
+UPDATE bus_company
+SET name = 'Tusker Transport and Co'
+WHERE 
+  bus_company_id = 05;
+
+UPDATE bus
+SET capacity = 70
+WHERE 
+ bus_id = 003;
+
+UPDATE bus
+SET capacity = 70
+WHERE 
+ bus_id = 004;
+
+UPDATE bus
+SET capacity = 70
+WHERE 
+ bus_id = 005;
+
+UPDATE bus_trip
+SET bus_id = 001
+WHERE 
+ trip_id = 03;
+
+UPDATE bus_trip
+SET bus_id = 002
+WHERE 
+ trip_id = 04;
+
+
+UPDATE bus_trip
+SET bus_id = 003
+WHERE 
+ trip_id = 05;
+
+CREATE VIEW Largest_Buses AS
+SELECT Bus_ID, Capacity
+FROM Bus
+WHERE Capacity = 70;
+
+CREATE VIEW Smallest_Buses AS
+SELECT Bus_ID, Capacity
+FROM Bus
+WHERE Capacity = 50;
+     
+DELETE FROM bus_company
+WHERE bus_company_id = 03;
+DELETE FROM bus_company
+WHERE bus_company_id = 04; 
+DELETE FROM bus_company
+WHERE bus_company_id = 05; 
+
+DELETE FROM bus
+WHERE bus_id = 003; 
+DELETE FROM bus
+WHERE bus_id = 004; 
+DELETE FROM bus
+WHERE bus_id = 005; 
+
+DELETE FROM bus_trip
+WHERE bus_trip_id = 003; 
+DELETE FROM bus_trip
+WHERE bus_trip_id = 004; 
+DELETE FROM bus_trip
+WHERE bus_trip_id = 005; 
+
+
+
+ 
+
+
+
+
+
+
